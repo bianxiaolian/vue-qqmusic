@@ -1,0 +1,56 @@
+/* 
+ * base.scss
+ * 凡是多个页面会同时使用到的样式全部放入该文件中 
+ */
+
+* {
+    box-sizing: border-box;
+}
+
+[data-dpr="2"] p {
+    font-size: 16px;
+}
+
+[data-dpr="3"] p {
+    font-size: 24px;
+}
+
+// //最长宽度
+$max-width:1200px;
+//最窄宽度
+$min-width:900px;
+//测试用边框
+$border:2px solid orange;
+$r-border:2px solid red;
+//主要色彩
+$bg-light:#eee; //后景色 更浅
+$bg-dark:#fff; //前景色
+//按钮，tab等颜色
+$main-color:#31c27c; //#B033FF app主题色
+//字体
+$font-lightgray:#fff; //浅灰
+$font-midgray:#a0a0a0;
+$font-gray:#666; //深灰字体色
+$font-dark:#000;
+$link-color:#019fde; //饿了么蓝
+
+/*超出省略号*/
+
+.text-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/*清除浮动*/
+
+
+/*<div class='clearfix'></div>*/
+
+.clearfix:after {
+    display: block;
+    content: '';
+    clear: both;
+    height: 0;
+}

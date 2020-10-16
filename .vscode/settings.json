@@ -1,0 +1,18 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "[vue]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "octref.vetur"
+    },
+    "vetur.format.defaultFormatter.js": "none",
+    "vetur.format.defaultFormatter.html": "none",
+    "vetur.format.defaultFormatter.ts": "none",
+    "vetur.validation.script": false,
+    "vetur.validation.template": false,
+    "cSpell.words": [
+        "Pano",
+        "pkgd"
+    ],
+}
