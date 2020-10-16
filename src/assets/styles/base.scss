@@ -23,16 +23,28 @@ $min-width:900px;
 $border:2px solid orange;
 $r-border:2px solid red;
 //主要色彩
-$bg-light:#eee; //后景色 更浅
-$bg-dark:#fff; //前景色
+$bg-dark:#eeeeee; //更深
+$bg-light:#ffffff; //
 //按钮，tab等颜色
 $main-color:#31c27c; //#B033FF app主题色
 //字体
-$font-lightgray:#fff; //浅灰
-$font-midgray:#a0a0a0;
-$font-gray:#666; //深灰字体色
-$font-dark:#000;
+$font-light:#ffffff; //浅灰
+$font-dark:#000000;
 $link-color:#019fde; //饿了么蓝
+a {
+    text-decoration: none;
+    color: #000000;
+    cursor: pointer;
+}
+
+a:hover {
+    color: $main-color;
+}
+
+ul {
+    list-style-type: none;
+}
+
 
 /*超出省略号*/
 

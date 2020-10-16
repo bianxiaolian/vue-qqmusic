@@ -12,7 +12,7 @@ a<template>
               v-for="item in navOption"
               :key="item.id"
               :class="[selectedNav === item.id ? 'isSelected' : 'notSelected']"
-              @click="() => (selectedNav = item.id)"
+              @click="selectedNav = item.id"
             >
               <a href="" @click.prevent>{{ item.title }} </a>
             </div>
@@ -20,8 +20,8 @@ a<template>
           <SearchBox></SearchBox>
           <div class="login"><a href="" @click.prevent>登录</a></div>
           <!--vip通道-->
-          <div class="open-to-pay" @mouseleave="() => (this.isOverVip = false)">
-            <div class="open-vip" @mouseover="() => (this.isOverVip = true)">
+          <div class="open-to-pay" @mouseleave="this.isOverVip = false">
+            <div class="open-vip" @mouseover="this.isOverVip = true">
               <a href="" @click.prevent>开通VIP</a>
             </div>
 
@@ -43,9 +43,9 @@ a<template>
           <!-- 充值通道 -->
           <div
             class="open-to-pay pay-money"
-            @mouseleave="() => (this.isOverPay = false)"
+            @mouseleave="this.isOverPay = false"
           >
-            <div class="open-vip" @mouseover="() => (this.isOverPay = true)">
+            <div class="open-vip" @mouseover="this.isOverPay = true">
               <a href="" @click.prevent>充值</a>
             </div>
 
@@ -72,8 +72,17 @@ a<template>
             class="detail-option"
             v-for="item in subNavOption"
             :key="item.id"
+            @click="selectedSubNav = item.id"
           >
-            <a href="" @click.prevent> {{ item.title }}</a>
+            <a
+              :style="{
+                color: selectedSubNav === item.id ? '#31c27c' : ''
+              }"
+              href=""
+              @click.prevent
+            >
+              {{ item.title }}</a
+            >
           </div>
         </div>
       </header>
@@ -99,6 +108,7 @@ export default {
       selectedNav: 0,
       isOverVip: false,
       isOverPay: false,
+      selectedSubNav: 0,
       subNavOption: [
         { id: 0, title: "首页" },
         { id: 1, title: "歌手" },
@@ -202,6 +212,7 @@ header {
     font-size: 16px;
   }
   .open-to-pay {
+    cursor: pointer;
     position: relative;
     top: 43%;
     min-width: 120px;
@@ -263,6 +274,7 @@ header {
   }
 
   .pay-money {
+    cursor: pointer;
     margin-left: 10px;
     div {
       width: 83px;
@@ -278,13 +290,6 @@ header {
       border-top: 5px solid #000;
     }
   }
-}
-a {
-  text-decoration: none;
-  color: #000000;
-}
-a:hover {
-  color: $main-color;
 }
 
 .sub-nav {
