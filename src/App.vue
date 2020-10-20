@@ -1,93 +1,88 @@
 a<template>
   <div id="app">
-    <div class="view">
-      <header>
-        <nav class="nav">
-          <div style="display:none" class="logo">
-            <img src="./assets/images/logo.png" alt="" />
-          </div>
-          <div class="nav-area">
-            <div
-              class="nav-option"
-              v-for="item in navOption"
-              :key="item.id"
-              :class="[selectedNav === item.id ? 'isSelected' : 'notSelected']"
-              @click="selectedNav = item.id"
-            >
-              <a href="" @click.prevent>{{ item.title }} </a>
-            </div>
-          </div>
-          <SearchBox></SearchBox>
-          <div class="login"><a href="" @click.prevent>登录</a></div>
-          <!--vip通道-->
-          <div class="open-to-pay" @mouseleave="this.isOverVip = false">
-            <div class="open-vip" @mouseover="this.isOverVip = true">
-              <a href="" @click.prevent>开通VIP</a>
-            </div>
-
-            <div
-              :style="{ display: isOverVip ? 'block' : 'none' }"
-              style="top: 40px"
-              class="other-pay"
-            >
-              <a href="" @click.prevent>开通绿钻豪华版</a>
-            </div>
-
-            <div
-              :style="{ display: isOverVip ? 'block' : 'none' }"
-              class="other-pay open-paid"
-            >
-              <a href="" @click.prevent>开通付费包</a>
-            </div>
-          </div>
-          <!-- 充值通道 -->
+    <header>
+      <nav class="nav">
+        <div style="display:none" class="logo">
+          <img src="./assets/images/logo.png" alt="" />
+        </div>
+        <div class="nav-area">
           <div
-            class="open-to-pay pay-money"
-            @mouseleave="this.isOverPay = false"
-          >
-            <div class="open-vip" @mouseover="this.isOverPay = true">
-              <a href="" @click.prevent>充值</a>
-            </div>
-
-            <div
-              :style="{ display: isOverPay ? 'block' : 'none' }"
-              style="top: 40px"
-              class="other-pay"
-            >
-              <!--  -->
-              <a href="" @click.prevent>购买乐币</a>
-            </div>
-
-            <div
-              :style="{ display: isOverPay ? 'block' : 'none' }"
-              class="other-pay open-paid"
-            >
-              <a href="" @click.prevent>充值饭票</a>
-            </div>
-          </div>
-          <!-- <router-link to="/">Flat</router-link>  -->
-        </nav>
-        <div class="sub-nav">
-          <div
-            class="detail-option"
-            v-for="item in subNavOption"
+            class="nav-option"
+            v-for="item in navOption"
             :key="item.id"
-            @click="selectedSubNav = item.id"
+            :class="[selectedNav === item.id ? 'isSelected' : 'notSelected']"
+            @click="selectedNav = item.id"
           >
-            <a
-              :style="{
-                color: selectedSubNav === item.id ? '#31c27c' : ''
-              }"
-              href=""
-              @click.prevent
-            >
-              {{ item.title }}</a
-            >
+            <a href="" @click.prevent>{{ item.title }} </a>
           </div>
         </div>
-      </header>
-      <router-view />
-    </div>
+        <SearchBox></SearchBox>
+        <div class="login"><a href="" @click.prevent>登录</a></div>
+        <!--vip通道-->
+        <div class="open-to-pay" @mouseleave="this.isOverVip = false">
+          <div class="open-vip" @mouseover="this.isOverVip = true">
+            <a href="" @click.prevent>开通VIP</a>
+          </div>
+
+          <div
+            :style="{ display: isOverVip ? 'block' : 'none' }"
+            style="top: 40px"
+            class="other-pay"
+          >
+            <a href="" @click.prevent>开通绿钻豪华版</a>
+          </div>
+
+          <div
+            :style="{ display: isOverVip ? 'block' : 'none' }"
+            class="other-pay open-paid"
+          >
+            <a href="" @click.prevent>开通付费包</a>
+          </div>
+        </div>
+        <!-- 充值通道 -->
+        <div class="open-to-pay pay-money" @mouseleave="this.isOverPay = false">
+          <div class="open-vip" @mouseover="this.isOverPay = true">
+            <a href="" @click.prevent>充值</a>
+          </div>
+
+          <div
+            :style="{ display: isOverPay ? 'block' : 'none' }"
+            style="top: 40px"
+            class="other-pay"
+          >
+            <!--  -->
+            <a href="" @click.prevent>购买乐币</a>
+          </div>
+
+          <div
+            :style="{ display: isOverPay ? 'block' : 'none' }"
+            class="other-pay open-paid"
+          >
+            <a href="" @click.prevent>充值饭票</a>
+          </div>
+        </div>
+        <!-- <router-link to="/">Flat</router-link>  -->
+      </nav>
+      <div class="sub-nav">
+        <div
+          class="detail-option"
+          v-for="item in subNavOption"
+          :key="item.id"
+          @click="selectedSubNav = item.id"
+        >
+          <a
+            :style="{
+              color: selectedSubNav === item.id ? '#31c27c' : ''
+            }"
+            href=""
+            @click.prevent
+          >
+            {{ item.title }}</a
+          >
+        </div>
+      </div>
+    </header>
+    <router-view />
   </div>
 </template>
 <script>
@@ -136,20 +131,19 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background-color: #eee;
-}
-.view {
-  height: 100%;
-  width: 100%;
-  max-width: $max-width;
+ 
   background-color: #fff;
-  margin: 0 auto;
 }
+
 header {
   margin: 0 50px;
 }
 .nav {
   position: relative;
+
+  max-width: $max-width;
+  min-width: $min-width;
+  margin: 0 auto;
   height: 90px;
   display: flex;
   align-items: center;
@@ -294,14 +288,15 @@ header {
 
 .sub-nav {
   padding-left: 230px;
-  //margin-right: -50px;
-  min-width: 900px;
+  max-width: $max-width;
+  min-width: $min-width;
   height: 52px;
   min-height: 52px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   .detail-option {
+    margin: 0 15px;
     height: 100%;
     display: flex;
     align-items: center;
