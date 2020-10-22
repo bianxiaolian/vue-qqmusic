@@ -1,9 +1,8 @@
 <template>
-  <div class="search-box">
+  <div class="search-box"   :class="{ 'box-show':showSearch,'box-hidden':showSearch===false}" >
+    <!--:style="{ 'min-width': showSearch ? '220px' : '35px' }"   -->
     <input
       class="search-input"
-      :style="{ 'min-width': showSearch ? '220px' : '35px' }"
-      :class="{ 'box':showSearch===false}"
       type="text"
       placeholder="搜索音乐、MV、歌单、用户"
     />
@@ -14,7 +13,7 @@
 export default {
   data() {
     return {
-      showSearch: true
+      showSearch: null
     };
   },
   created() {
@@ -61,8 +60,8 @@ export default {
     z-index: 1;
   }
   .icon-box {
-    border-radius: 3px;
-    border-left: 1px solid #ccc;
+    // border-radius: 3px;
+    // border-left: 1px solid #ccc;
     z-index: 2;
     margin-right: 0;
     width: 35px;
@@ -75,10 +74,8 @@ export default {
     }
   }
 }
-.box{
-  min-width:35px;
-}
-.box:hover {
+
+.box-show{
   animation: box_show 1s 1;
   min-width: 220px;
 
@@ -91,4 +88,24 @@ export default {
     min-width: 220px;
   }
 }
+.box-hidden{
+  animation: box_hidden 1s 1;
+  min-width: 35px;
+
+}
+@keyframes box_hidden {
+  from {
+    min-width: 220px;
+    
+  }
+  to {
+    min-width: 35px;
+  }
+}
+
+.box-hidden:hover{
+  animation: box_show 1s 1;
+  min-width: 220px;
+}
+
 </style>

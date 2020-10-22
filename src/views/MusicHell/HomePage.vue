@@ -19,12 +19,18 @@
             >
           </li>
         </ul>
-        <div class="slide-handle left-handle" @click="slideToLeft = true">
+        <div class="slide-handle left-handle" @click="clickSlide">
           <img src="../../assets/icon/back.svg" alt="" />
         </div>
         <!--    -->
         <div class="list-border">
-          <ul class="play-list" :class="{'list-slide-left':slideToLeft===true,'list-slide-right':slideToLeft===false}">
+          <ul
+            class="play-list"
+            :class="{
+              'list-slide-left': slideToLeft === true,
+              'list-slide-right': slideToLeft === false
+            }"
+          >
             <li
               v-for="listItem in recommendedList"
               :key="listItem.id"
@@ -44,30 +50,53 @@
             </li>
           </ul>
         </div>
-        <div class="slide-handle right-handle" @click="slideToLeft = false">
+        <div class="slide-handle right-handle" @click="clickSlide">
           <img src="../../assets/icon/back.svg" alt="" />
         </div>
       </div>
       <ul class="dot-bar">
-        <li></li>
-        <li></li>
+        <li
+          v-for="(item, index) in [0, 1]"
+          :key="index"
+          :style="{
+            'background-color':
+              slideToLeft && item === 0
+                ? 'rgb(143, 143, 143)'
+                : 'rgb(183, 183, 183)'
+          }"
+        ></li>
       </ul>
 
       <div class="recommended new-song">
-        <h1>新歌首发</h1>
-        <ul class="sub-title">
-          <li>最新</li>
-        </ul>
-        <ul class="song-list">
-          <li>
-            <img src="" alt="" />
-            <div class="introduce">
-              <p>千百度</p>
-              <p>张靓颖</p>
-            </div>
-            <span>04:01</span>
-          </li>
-        </ul>
+        <div class="content">
+          <h1>新歌首发</h1>
+          <ul class="sub-title">
+            <li
+              v-for="item in newCate"
+              :key="item.id"
+              @click="selectedListId = item.id"
+            >
+              <a
+                href=""
+                :style="{
+                  color: selectedListId === item.id ? '#31c27c' : ''
+                }"
+                @click.prevent
+                >{{ item.name }}</a
+              >
+            </li>
+          </ul>
+          <ul class="song-list">
+            <li>
+              <img src="" alt="" />
+              <div class="introduce">
+                <p>千百度</p>
+                <p>张靓颖</p>
+              </div>
+              <span>04:01</span>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="excellent-recommend">
         <h1>精彩推荐</h1>
@@ -138,26 +167,33 @@ export default {
         },
         {
           id: 8,
-          coverSrc: require("../../assets/images/listCover5.jpg"),
+          coverSrc: require("../../assets/images/listCover8.jpg"),
           title: "耳熟能详民歌荟萃",
           playedCount: 4 * 10e5
         },
         {
           id: 9,
-          coverSrc: require("../../assets/images/listCover6.jpg"),
+          coverSrc: require("../../assets/images/listCover.jpg"),
           title: "探索中的秘密花园",
           playedCount: 5 * 10e5
         }
       ],
       selectedListId: 0,
-      slideToLeft:null,
-      windowWidth: window.innerWidth
+      slideToLeft: null,
+      newCate: [
+        { id: 0, name: "最新" },
+        { id: 1, name: "内地" },
+        { id: 2, name: "港台" },
+        { id: 3, name: "欧美" },
+        { id: 4, name: "韩国" },
+        { id: 5, name: "日本" }
+      ]
     };
   },
 
   methods: {
-    slideList(toLeft) {
-      this.slideToLeft = toLeft;
+    clickSlide() {
+      this.slideToLeft = !this.slideToLeft;
     }
   }
 };
@@ -168,7 +204,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  
+
   a {
     font-size: 14px;
   }
@@ -188,19 +224,21 @@ export default {
 
   .recommended {
     position: relative;
-    padding: 0;
+    margin: 0 auto;
+    width: 100%;
     background: linear-gradient(#eee, #fff);
     .content {
       max-width: $max-width + 50px;
       min-width: $min-width;
       margin: 0 auto;
+      padding:0 50px;
       display: flex;
       flex-direction: column;
       padding-top: 10px;
     }
     .slide-handle {
       position: absolute;
-      top: 20.5%;
+      top: 24.5%;
       width: 80px;
       height: 100px;
       display: flex;
@@ -245,125 +283,127 @@ export default {
 
     .list-border {
       position: relative;
-      height: 400px;
-    }
-    .play-list {
-      position: absolute;
-      top: 0;
-      margin:0 auto;
-      padding: 0 20px;
-      display: flex;
-      flex-direction: row;
+      width: 100%;
+      min-height: 300px;
       overflow: hidden;
-      .list-item {
-        width: 17%;
-        flex-shrink: 0;
-        margin: 0 10px;
+      .play-list {
+        position: absolute;
+        top: 0;
+        padding: 0 20px;
+        width: 100%;
+        min-height: 100%;
         display: flex;
-        flex-direction: column;
-        align-items: start;
-        justify-content: space-between;
-        .cover {
-          position: relative;
-          width: 100%;
-          overflow: hidden;
-          cursor: pointer;
-        }
-        .list-cover {
-          width: 100%;
-          height: 100%;
-        }
-        .cover:hover .list-cover {
-          transform: scale(1.1);
-          animation: cover_ani 1s 1;
-          //animation: cover_ani2 1s 1;
-        }
-        @keyframes cover_ani {
-          from {
-            transform: scale(1);
+        flex-direction: row;
+        .list-item {
+          width: 18.5%;
+          flex-shrink: 0;
+          margin: 0 10px;
+          display: flex;
+          flex-direction: column;
+          align-items: start;
+          justify-content: space-between;
+          .cover {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            cursor: pointer;
           }
-          to {
+          .list-cover {
+            width: 100%;
+            height: 100%;
+          }
+          .cover:hover .list-cover {
             transform: scale(1.1);
+            animation: cover_ani 1s 1;
+            //animation: cover_ani2 1s 1;
           }
-        }
-        @keyframes cover_ani2 {
-          from {
-            transform: scale(1.1);
+          @keyframes cover_ani {
+            from {
+              transform: scale(1);
+            }
+            to {
+              transform: scale(1.1);
+            }
           }
-          to {
-            transform: scale(1);
+          @keyframes cover_ani2 {
+            from {
+              transform: scale(1.1);
+            }
+            to {
+              transform: scale(1);
+            }
           }
-        }
 
-        .cover-mask {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: #000;
-          opacity: 0;
-        }
-
-        .cover:hover .cover-mask {
-          animation: cover_mask 1s 1;
-          opacity: 0.5;
-        }
-        @keyframes cover_mask {
-          from {
-            opacity: 0.1;
-          }
-          to {
-            opacity: 0.5;
-          }
-        }
-        .play-btn {
-          position: absolute;
-          top: 35%;
-          left: 35%;
-          //transform: translate(-30px, -30px);
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          opacity: 0;
-          background-color: #fff;
-        }
-
-        .play-btn::after {
-          content: "";
-          position: absolute;
-          top: 18px;
-          left: 24px;
-          width: 0;
-          height: 0;
-          border: 12px solid transparent;
-          border-left: 20px solid rgb(83, 83, 83);
-        }
-
-        .cover:hover .play-btn {
-          opacity: 1;
-
-          animation: c_icon 1s 1;
-          //transform-origin:left;
-        }
-        @keyframes c_icon {
-          from {
-            transform: scale(0.6);
+          .cover-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
             opacity: 0;
           }
-          to {
-            transform: scale(1);
-            opacity: 1;
+
+          .cover:hover .cover-mask {
+            animation: cover_mask 1s 1;
+            opacity: 0.5;
           }
-        }
-        a {
-          margin-top: 12px;
-          text-align: left;
-        }
-        .count {
-          margin-top: 5px;
-          color: gray;
-          font-size: 14px;
+          @keyframes cover_mask {
+            from {
+              opacity: 0.1;
+            }
+            to {
+              opacity: 0.5;
+            }
+          }
+          .play-btn {
+            position: absolute;
+            top: 35%;
+            left: 35%;
+            //transform: translate(-30px, -30px);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            opacity: 0;
+            background-color: #fff;
+          }
+
+          .play-btn::after {
+            content: "";
+            position: absolute;
+            top: 18px;
+            left: 24px;
+            width: 0;
+            height: 0;
+            border: 12px solid transparent;
+            border-left: 20px solid rgb(83, 83, 83);
+          }
+
+          .cover:hover .play-btn {
+            opacity: 1;
+
+            animation: c_icon 1s 1;
+            //transform-origin:left;
+          }
+          @keyframes c_icon {
+            from {
+              transform: scale(0.6);
+              opacity: 0;
+            }
+            to {
+              transform: scale(1);
+              opacity: 1;
+            }
+          }
+          a {
+            margin-top: 12px;
+            text-align: left;
+          }
+          .count {
+            margin-top: 5px;
+            color: gray;
+            font-size: 14px;
+          }
         }
       }
     }
@@ -372,6 +412,7 @@ export default {
       height: 60px;
       margin: 0;
       padding: 0;
+      min-width: $min-width;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -420,27 +461,27 @@ export default {
   }
 
   .list-slide-left {
-    animation: list_slide_left 2s 1;
-    left: -50%;
+    animation: list_slide_left 1s 1;
+    left: -100%;
   }
   @keyframes list_slide_left {
     from {
       left: 0;
     }
     to {
-      left: -50%;
+      left: -100%;
     }
   }
   .list-slide-right {
-    animation: list_slide_left 2s 1;
-    right: -50%;
+    animation: list_slide_right 1s 1;
+    left: 0;
   }
-  @keyframes list_slide_left {
+  @keyframes list_slide_right {
     from {
-      right: 0;
+      left: -100%;
     }
     to {
-      right: -50%;
+      left: 0;
     }
   }
 }

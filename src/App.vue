@@ -154,11 +154,10 @@ header {
 }
 nav {
   position: relative;
+  margin: 0 auto;
+  height: 90px;
   max-width: $max-width;
   min-width: $min-width;
-  margin: 0 auto;
-  
-  height: 90px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -167,8 +166,7 @@ nav {
   .logo {
     margin-right: 30px;
   }
-  .nav-part{
- 
+  .nav-part {
     height: 100%;
     display: flex;
     flex-direction: row;
