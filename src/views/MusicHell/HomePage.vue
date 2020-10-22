@@ -19,29 +19,32 @@
             >
           </li>
         </ul>
-        <div class="slide-handle left-handle" @click="slideList(true)">
+        <div class="slide-handle left-handle" @click="slideToLeft = true">
           <img src="../../assets/icon/back.svg" alt="" />
         </div>
-        <ul class="play-list">
-          <li
-            v-for="listItem in recommendedList"
-            :key="listItem.id"
-            class="list-item"
-            :style="{
-              'margin-right':
-                listItem.id != 0 && listItem.id % 4 == 0 ? '30px' : '10px'
-            }"
-          >
-            <div class="cover">
-              <img class="list-cover" :src="listItem.coverSrc" alt="" />
-              <i class="cover-mask"></i>
-              <i class="play-btn" />
-            </div>
-            <a>{{ listItem.title }}</a>
-            <p class="count">播放量：{{ listItem.playedCount / 10000 }}万</p>
-          </li>
-        </ul>
-        <div class="slide-handle right-handle" @click="slideList(false)">
+        <!--    -->
+        <div class="list-border">
+          <ul class="play-list" :class="{'list-slide-left':slideToLeft===true,'list-slide-right':slideToLeft===false}">
+            <li
+              v-for="listItem in recommendedList"
+              :key="listItem.id"
+              class="list-item"
+              :style="{
+                'margin-right':
+                  listItem.id != 0 && listItem.id % 4 == 0 ? '30px' : '10px'
+              }"
+            >
+              <div class="cover">
+                <img class="list-cover" :src="listItem.coverSrc" alt="" />
+                <i class="cover-mask"></i>
+                <i class="play-btn" />
+              </div>
+              <a>{{ listItem.title }}</a>
+              <p class="count">播放量：{{ listItem.playedCount / 10000 }}万</p>
+            </li>
+          </ul>
+        </div>
+        <div class="slide-handle right-handle" @click="slideToLeft = false">
           <img src="../../assets/icon/back.svg" alt="" />
         </div>
       </div>
@@ -49,25 +52,26 @@
         <li></li>
         <li></li>
       </ul>
-    </div>
-    <div class="recommended new-song">
-      <h1>新歌首发</h1>
-      <ul class="sub-title">
-        <li>最新</li>
-      </ul>
-      <ul class="song-list">
-        <li>
-          <img src="" alt="" />
-          <div class="introduce">
-            <p>千百度</p>
-            <p>张靓颖</p>
-          </div>
-          <span>04:01</span>
-        </li>
-      </ul>
-    </div>
-    <div class="excellent-recommend">
-      <h1>精彩推荐</h1>
+
+      <div class="recommended new-song">
+        <h1>新歌首发</h1>
+        <ul class="sub-title">
+          <li>最新</li>
+        </ul>
+        <ul class="song-list">
+          <li>
+            <img src="" alt="" />
+            <div class="introduce">
+              <p>千百度</p>
+              <p>张靓颖</p>
+            </div>
+            <span>04:01</span>
+          </li>
+        </ul>
+      </div>
+      <div class="excellent-recommend">
+        <h1>精彩推荐</h1>
+      </div>
     </div>
   </div>
 </template>
@@ -146,9 +150,11 @@ export default {
         }
       ],
       selectedListId: 0,
-      slideToLeft: true
+      slideToLeft:null,
+      windowWidth: window.innerWidth
     };
   },
+
   methods: {
     slideList(toLeft) {
       this.slideToLeft = toLeft;
@@ -162,6 +168,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  
   a {
     font-size: 14px;
   }
@@ -181,18 +188,19 @@ export default {
 
   .recommended {
     position: relative;
-   padding:0;
+    padding: 0;
     background: linear-gradient(#eee, #fff);
     .content {
       max-width: $max-width + 50px;
       min-width: $min-width;
       margin: 0 auto;
+      display: flex;
+      flex-direction: column;
       padding-top: 10px;
     }
     .slide-handle {
       position: absolute;
-
-      top: 40%;
+      top: 20.5%;
       width: 80px;
       height: 100px;
       display: flex;
@@ -235,27 +243,21 @@ export default {
       right: 0;
     }
 
-    //列表向左滑动
-    .left-slide {
-      animation: left_slide_ani 2s 1;
+    .list-border {
+      position: relative;
+      height: 400px;
     }
-    @keyframes left_slide_ani {
-      from {
-        left: 0;
-      }
-      from {
-        left: -100%;
-      }
-    }
-
     .play-list {
+      position: absolute;
+      top: 0;
+      margin:0 auto;
+      padding: 0 20px;
       display: flex;
       flex-direction: row;
       overflow: hidden;
       .list-item {
-        width: 18.5%;
+        width: 17%;
         flex-shrink: 0;
-
         margin: 0 10px;
         display: flex;
         flex-direction: column;
@@ -340,9 +342,9 @@ export default {
 
         .cover:hover .play-btn {
           opacity: 1;
-       
+
           animation: c_icon 1s 1;
-           //transform-origin:left;
+          //transform-origin:left;
         }
         @keyframes c_icon {
           from {
@@ -414,6 +416,31 @@ export default {
     to {
       opacity: 1;
       right: 0;
+    }
+  }
+
+  .list-slide-left {
+    animation: list_slide_left 2s 1;
+    left: -50%;
+  }
+  @keyframes list_slide_left {
+    from {
+      left: 0;
+    }
+    to {
+      left: -50%;
+    }
+  }
+  .list-slide-right {
+    animation: list_slide_left 2s 1;
+    right: -50%;
+  }
+  @keyframes list_slide_left {
+    from {
+      right: 0;
+    }
+    to {
+      right: -50%;
     }
   }
 }

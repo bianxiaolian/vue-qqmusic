@@ -2,6 +2,8 @@
   <div class="search-box">
     <input
       class="search-input"
+      :style="{ 'min-width': showSearch ? '220px' : '35px' }"
+      :class="{ 'box':showSearch===false}"
       type="text"
       placeholder="搜索音乐、MV、歌单、用户"
     />
@@ -11,30 +13,57 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      showSearch: true
+    };
+  },
+  created() {
+    this.show();
+  },
+  mounted() {
+    window.onresize = () => {
+      this.show();
+    };
+  },
+  methods: {
+    show() {
+      //console.log(window.innerWidth)
+      if (window.innerWidth < 1100) {
+        this.showSearch = false;
+      } else {
+        this.showSearch = true;
+      }
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .search-box {
-  min-width: 220px;
+  position: absolute;
+  right: 10px;
   height: 36px;
   border: 1px solid #ccc;
+  background-color: #fff;
   border-radius: 3px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   overflow: hidden;
   .search-input {
-      display: absolute;
+    position: absolute;
+    top: 0;
+    right: 35px;
     outline: none;
     background: transparent;
     border: none;
     height: 100%;
-    right: -173px;
+    z-index: 1;
   }
   .icon-box {
+    border-radius: 3px;
+    border-left: 1px solid #ccc;
+    z-index: 2;
     margin-right: 0;
     width: 35px;
     height: 100%;
@@ -44,6 +73,22 @@ export default {
     img {
       width: 20px;
     }
+  }
+}
+.box{
+  min-width:35px;
+}
+.box:hover {
+  animation: box_show 1s 1;
+  min-width: 220px;
+
+}
+@keyframes box_show {
+  from {
+    min-width: 35px;
+  }
+  to {
+    min-width: 220px;
   }
 }
 </style>

@@ -7,6 +7,8 @@
     box-sizing: border-box;
 }
 
+@media screen and (max-width: 1920px) {}
+
 [data-dpr="2"] p {
     font-size: 16px;
 }
@@ -18,7 +20,7 @@
 // //最长宽度
 $max-width:1200px;
 //最窄宽度
-$min-width:900px;
+$min-width:1000px;
 //测试用边框
 $border:2px solid orange;
 $r-border:2px solid red;

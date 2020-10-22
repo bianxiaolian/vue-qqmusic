@@ -1,64 +1,78 @@
-a<template>
+<template>
   <div id="app">
     <header>
-      <nav class="nav">
-        <div style="display:none" class="logo">
-          <img src="./assets/images/logo.png" alt="" />
-        </div>
-        <div class="nav-area">
-          <div
-            class="nav-option"
-            v-for="item in navOption"
-            :key="item.id"
-            :class="[selectedNav === item.id ? 'isSelected' : 'notSelected']"
-            @click="selectedNav = item.id"
-          >
-            <a href="" @click.prevent>{{ item.title }} </a>
+      <nav>
+        <div class="nav-part">
+          <div class="logo">
+            <img src="./assets/images/logo.png" alt="" />
+          </div>
+          <div class="nav-area">
+            <div
+              class="nav-option"
+              v-for="item in navOption"
+              :key="item.id"
+              :class="[selectedNav === item.id ? 'isSelected' : 'notSelected']"
+              @click="selectedNav = item.id"
+            >
+              <a href="" @click.prevent>{{ item.title }} </a>
+            </div>
           </div>
         </div>
-        <SearchBox></SearchBox>
-        <div class="login"><a href="" @click.prevent>登录</a></div>
-        <!--vip通道-->
-        <div class="open-to-pay" @mouseleave="this.isOverVip = false">
-          <div class="open-vip" @mouseover="this.isOverVip = true">
-            <a href="" @click.prevent>开通VIP</a>
-          </div>
-
-          <div
-            :style="{ display: isOverVip ? 'block' : 'none' }"
-            style="top: 40px"
-            class="other-pay"
-          >
-            <a href="" @click.prevent>开通绿钻豪华版</a>
-          </div>
-
-          <div
-            :style="{ display: isOverVip ? 'block' : 'none' }"
-            class="other-pay open-paid"
-          >
-            <a href="" @click.prevent>开通付费包</a>
-          </div>
+        <div class="nav-part" style="position:relative;flex:1">
+          <SearchBox></SearchBox>
         </div>
-        <!-- 充值通道 -->
-        <div class="open-to-pay pay-money" @mouseleave="this.isOverPay = false">
-          <div class="open-vip" @mouseover="this.isOverPay = true">
-            <a href="" @click.prevent>充值</a>
-          </div>
-
+        <div class="nav-part">
+          <div class="login"><a href="" @click.prevent>登录</a></div>
+          <!--vip通道-->
           <div
-            :style="{ display: isOverPay ? 'block' : 'none' }"
-            style="top: 40px"
-            class="other-pay"
+            class="open-to-pay"
+            @mouseover="isOverVip = true"
+            @mouseleave="isOverVip = false"
           >
-            <!--  -->
-            <a href="" @click.prevent>购买乐币</a>
-          </div>
+            <div class="open-vip">
+              <a href="" @click.prevent>开通VIP</a>
+            </div>
 
+            <div
+              :style="{ display: isOverVip ? 'block' : 'none' }"
+              style="top: 40px"
+              class="other-pay"
+            >
+              <a href="" @click.prevent>开通绿钻豪华版</a>
+            </div>
+
+            <div
+              :style="{ display: isOverVip ? 'block' : 'none' }"
+              class="other-pay open-paid"
+            >
+              <a href="" @click.prevent>开通付费包</a>
+            </div>
+          </div>
+          <!-- 充值通道 -->
           <div
-            :style="{ display: isOverPay ? 'block' : 'none' }"
-            class="other-pay open-paid"
+            class="open-to-pay pay-money"
+            @mouseover="isOverPay = true"
+            @mouseleave="isOverPay = false"
           >
-            <a href="" @click.prevent>充值饭票</a>
+            <div class="open-vip">
+              <a href="" @click.prevent>充值</a>
+            </div>
+
+            <div
+              :style="{ display: isOverPay ? 'block' : 'none' }"
+              style="top: 40px"
+              class="other-pay"
+            >
+              <!--  -->
+              <a href="" @click.prevent>购买乐币</a>
+            </div>
+
+            <div
+              :style="{ display: isOverPay ? 'block' : 'none' }"
+              class="other-pay open-paid"
+            >
+              <a href="" @click.prevent>充值饭票</a>
+            </div>
           </div>
         </div>
         <!-- <router-link to="/">Flat</router-link>  -->
@@ -131,19 +145,19 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
- 
+
   background-color: #fff;
 }
 
 header {
   margin: 0 50px;
 }
-.nav {
+nav {
   position: relative;
-
   max-width: $max-width;
   min-width: $min-width;
   margin: 0 auto;
+  
   height: 90px;
   display: flex;
   align-items: center;
@@ -152,6 +166,14 @@ header {
   border-bottom: 1px solid #eee;
   .logo {
     margin-right: 30px;
+  }
+  .nav-part{
+ 
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
   .nav-area {
     height: 100%;
@@ -287,6 +309,7 @@ header {
 }
 
 .sub-nav {
+  margin: 0 auto;
   padding-left: 230px;
   max-width: $max-width;
   min-width: $min-width;
