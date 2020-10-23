@@ -1,11 +1,82 @@
 <template>
   <div class="home-page">
-    <div class="recommended">
+    <div class="card recommended" >
       <div class="content">
         <h1>歌单推荐</h1>
+        <!-- 推荐分类  @mouseover="overCardId=1" @mouseout="overCardId=null"-->
         <ul class="sub-title">
           <li
-            v-for="item in recommendedCate"
+            v-for="(item, index) in recommendedCate"
+            :key="index"
+            @click="selectedListId = item.id"
+          >
+            <a
+              href=""
+              :style="{
+                color: selectedListId === item.id ? '#31c27c' : ''
+              }"
+              @click.prevent
+              >{{ item.name }}</a
+            >
+          </li>
+        </ul>
+        <!-- 左箭头 -->
+        <div class="slide-handle left-handle" @click="clickSlide" :class="{'left-handle-ani':overCardId===1}">
+          <img src="../../assets/icon/back.svg" alt="" />
+        </div>
+        <!--歌单区域-->
+        <div class="list-border">
+          <ul
+            class="play-list"
+            :class="{
+              'list-slide-left': slideToLeft === true,
+              'list-slide-right': slideToLeft === false
+            }"
+          >
+            <li
+              v-for="(listItem, index) in recommendedList"
+              :key="index"
+              class="list-item"
+              :style="{
+                'margin-right':
+                  listItem.id != 0 && listItem.id % 4 == 0 ? '30px' : '10px'
+              }"
+            >
+              <div class="cover">
+                <img class="list-cover" :src="listItem.coverSrc" alt="" />
+                <i class="cover-mask"></i>
+                <i class="play-btn" />
+              </div>
+              <a>{{ listItem.title }}</a>
+              <p class="count">播放量：{{ listItem.playedCount / 10000 }}万</p>
+            </li>
+          </ul>
+        </div>
+        <!-- 右箭头 -->
+        <div class="slide-handle right-handle" @click="clickSlide">
+          <img src="../../assets/icon/back.svg" alt="" />
+        </div>
+      </div>
+      <!-- 圆点 -->
+      <ul class="dot-bar">
+        <li
+          v-for="(item, index) in [0, 1]"
+          :key="index"
+          :style="{
+            'background-color':
+              slideToLeft && item === 0
+                ? 'rgb(143, 143, 143)'
+                : 'rgb(183, 183, 183)'
+          }"
+        ></li>
+      </ul>
+    </div>
+    <div class="card new-song">
+      <div class="content">
+        <h1>新歌首发</h1>
+        <ul class="sub-title">
+          <li
+            v-for="item in newCate"
             :key="item.id"
             @click="selectedListId = item.id"
           >
@@ -32,8 +103,8 @@
             }"
           >
             <li
-              v-for="listItem in recommendedList"
-              :key="listItem.id"
+              v-for="(listItem, index) in newSongList"
+              :key="index"
               class="list-item"
               :style="{
                 'margin-right':
@@ -41,12 +112,15 @@
               }"
             >
               <div class="cover">
-                <img class="list-cover" :src="listItem.coverSrc" alt="" />
+                <img class="list-cover" :src="listItem.poster" alt="" />
                 <i class="cover-mask"></i>
                 <i class="play-btn" />
               </div>
-              <a>{{ listItem.title }}</a>
-              <p class="count">播放量：{{ listItem.playedCount / 10000 }}万</p>
+              <div class="detail">
+                <a>{{ listItem.name }}</a>
+                <p class="count">{{ listItem.singer }}</p>
+              </div>
+              <div class="duration">{{ listItem.duration }}</div>
             </li>
           </ul>
         </div>
@@ -54,9 +128,10 @@
           <img src="../../assets/icon/back.svg" alt="" />
         </div>
       </div>
+
       <ul class="dot-bar">
         <li
-          v-for="(item, index) in [0, 1]"
+          v-for="(item, index) in [0, 1, 2]"
           :key="index"
           :style="{
             'background-color':
@@ -66,41 +141,10 @@
           }"
         ></li>
       </ul>
+    </div>
 
-      <div class="recommended new-song">
-        <div class="content">
-          <h1>新歌首发</h1>
-          <ul class="sub-title">
-            <li
-              v-for="item in newCate"
-              :key="item.id"
-              @click="selectedListId = item.id"
-            >
-              <a
-                href=""
-                :style="{
-                  color: selectedListId === item.id ? '#31c27c' : ''
-                }"
-                @click.prevent
-                >{{ item.name }}</a
-              >
-            </li>
-          </ul>
-          <ul class="song-list">
-            <li>
-              <img src="" alt="" />
-              <div class="introduce">
-                <p>千百度</p>
-                <p>张靓颖</p>
-              </div>
-              <span>04:01</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="excellent-recommend">
-        <h1>精彩推荐</h1>
-      </div>
+    <div class="card excellent-recommend">
+      <h1>精彩推荐</h1>
     </div>
   </div>
 </template>
@@ -173,7 +217,7 @@ export default {
         },
         {
           id: 9,
-          coverSrc: require("../../assets/images/listCover.jpg"),
+          coverSrc: require("../../assets/images/listCover9.jpg"),
           title: "探索中的秘密花园",
           playedCount: 5 * 10e5
         }
@@ -187,11 +231,54 @@ export default {
         { id: 3, name: "欧美" },
         { id: 4, name: "韩国" },
         { id: 5, name: "日本" }
-      ]
+      ],
+      newSongList: [
+        {
+          id: 0,
+          name: "positions",
+          singer: "Ariana Grande",
+          duration: "02:52",
+          poster: require("../../assets/images/listCover.jpg")
+        },
+        {
+          id: 1,
+          name: "纸上飞行",
+          singer: "刘宇宁",
+          duration: "02:41",
+          poster: require("../../assets/images/listCover1.jpg")
+        },
+        {
+          id: 2,
+          name: "说好的再见",
+          singer: "彭昱畅/张婧仪",
+          duration: "03:52",
+          poster: require("../../assets/images/listCover.jpg")
+        }
+      ],
+      overCardId:1
     };
   },
-
+  created() {
+    this.getVirtualData();
+  },
   methods: {
+    getVirtualData() {
+      let { recommendedList, newSongList } = this;
+      recommendedList.unshift(...recommendedList.slice(5, 10));
+      recommendedList.push(...recommendedList.slice(5, 10));
+      recommendedList.forEach((item, index) => {
+        recommendedList[index].id = index;
+      });
+      this.recommendedList = recommendedList;
+
+      for (let i = 0; i < 8; i++) {
+        newSongList = newSongList.concat(this.newSongList);
+      }
+      for (let i = 0; i < newSongList.length; i++) {
+        newSongList[i].id = i;
+      }
+      this.newSongList = newSongList;
+    },
     clickSlide() {
       this.slideToLeft = !this.slideToLeft;
     }
@@ -200,7 +287,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .home-page {
-  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -208,21 +294,28 @@ export default {
   a {
     font-size: 14px;
   }
-  li {
-    display: inline-block;
+  ul {
+    margin: 8px 0;
+    li {
+      display: inline-block;
+    }
   }
+
   .sub-title {
     height: 30px;
     li {
       display: inline-block;
       padding: 0 25px;
+      a {
+        font-size: 15px;
+      }
     }
   }
   h1 {
     letter-spacing: 20px;
   }
 
-  .recommended {
+  .card {
     position: relative;
     margin: 0 auto;
     width: 100%;
@@ -231,14 +324,14 @@ export default {
       max-width: $max-width + 50px;
       min-width: $min-width;
       margin: 0 auto;
-      padding:0 50px;
+      padding: 10px 50px 0 50px;
+
       display: flex;
       flex-direction: column;
-      padding-top: 10px;
     }
     .slide-handle {
       position: absolute;
-      top: 24.5%;
+      top: 40%;
       width: 80px;
       height: 100px;
       display: flex;
@@ -264,6 +357,7 @@ export default {
     }
     .left-handle {
       left: -80px;
+      //transition: opacity 1s, left 1s;
     }
 
     .right-handle::before {
@@ -278,7 +372,8 @@ export default {
     }
     .right-handle {
       transform: scaleX(-1);
-      right: 0;
+      right: -80px;
+      transition: opacity 1s, right 1s;
     }
 
     .list-border {
@@ -301,7 +396,7 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: start;
-          justify-content: space-between;
+          justify-content: center;
           .cover {
             position: relative;
             width: 100%;
@@ -311,29 +406,11 @@ export default {
           .list-cover {
             width: 100%;
             height: 100%;
+            transition: transform 1s;
           }
           .cover:hover .list-cover {
             transform: scale(1.1);
-            animation: cover_ani 1s 1;
-            //animation: cover_ani2 1s 1;
           }
-          @keyframes cover_ani {
-            from {
-              transform: scale(1);
-            }
-            to {
-              transform: scale(1.1);
-            }
-          }
-          @keyframes cover_ani2 {
-            from {
-              transform: scale(1.1);
-            }
-            to {
-              transform: scale(1);
-            }
-          }
-
           .cover-mask {
             position: absolute;
             top: 0;
@@ -342,37 +419,31 @@ export default {
             height: 100%;
             background-color: #000;
             opacity: 0;
+            transition: opacity 1s;
           }
 
           .cover:hover .cover-mask {
-            animation: cover_mask 1s 1;
             opacity: 0.5;
           }
-          @keyframes cover_mask {
-            from {
-              opacity: 0.1;
-            }
-            to {
-              opacity: 0.5;
-            }
-          }
+
           .play-btn {
             position: absolute;
-            top: 35%;
-            left: 35%;
-            //transform: translate(-30px, -30px);
-            width: 60px;
-            height: 60px;
+            top: 31%;
+            left: 31%;
+            width: 38%;
+            height: 38%;
             border-radius: 50%;
-            opacity: 0;
             background-color: #fff;
+            opacity: 0;
+            transform: scale(0.6);
+            transition: opacity 1s, transform 1s;
           }
 
           .play-btn::after {
             content: "";
             position: absolute;
-            top: 18px;
-            left: 24px;
+            top: 30%;
+            left: 40%;
             width: 0;
             height: 0;
             border: 12px solid transparent;
@@ -380,21 +451,10 @@ export default {
           }
 
           .cover:hover .play-btn {
+            transform: scale(1);
             opacity: 1;
+          }
 
-            animation: c_icon 1s 1;
-            //transform-origin:left;
-          }
-          @keyframes c_icon {
-            from {
-              transform: scale(0.6);
-              opacity: 0;
-            }
-            to {
-              transform: scale(1);
-              opacity: 1;
-            }
-          }
           a {
             margin-top: 12px;
             text-align: left;
@@ -409,7 +469,7 @@ export default {
     }
     .dot-bar {
       width: 100%;
-      height: 60px;
+      height: 65px;
       margin: 0;
       padding: 0;
       min-width: $min-width;
@@ -417,47 +477,59 @@ export default {
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      background: rgb(247, 247, 247);
+      background: rgb(248, 248, 248);
       li {
         margin: 0 10px;
         width: 8px;
         height: 8px;
-        border-radius: 50%;
+        border-radius: 8px;
         background-color: rgb(184, 183, 183);
       }
     }
   }
 
-  .recommended:hover .left-handle {
-    left: 0;
-    opacity: 1;
-    animation: handle_left_slide 1s 1;
-  }
-  @keyframes handle_left_slide {
-    from {
-      opacity: 0;
-      left: -80px;
-    }
-    to {
-      opacity: 1;
-      left: 0;
+  .new-song {
+    .list-border {
+      min-height: 340px;
+      .play-list {
+        flex-wrap: wrap;
+        .list-item {
+          margin: 10px;
+          width: 28%;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          .cover {
+            width: 35%;
+          }
+          .play-btn::after {
+            border: 6px solid transparent;
+            border-left: 10px solid rgb(83, 83, 83);
+          }
+          .detail {
+            margin-left: -10%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .duration{
+            font-size:14px;
+            color:#a7a7a7;
+          }
+        }
+      }
     }
   }
 
-  .recommended:hover .right-handle {
-    right: 0;
+ .left-handle-ani {
+   transition: opacity 1s, left 1s;
     opacity: 1;
-    animation: handle_right_slide 1s 1;
+    left: 0;
   }
-  @keyframes handle_right_slide {
-    from {
-      opacity: 0;
-      right: -80px;
-    }
-    to {
-      opacity: 1;
-      right: 0;
-    }
+
+  .recommended:hover .right-handle {
+    opacity: 1;
+    right: 0;
   }
 
   .list-slide-left {

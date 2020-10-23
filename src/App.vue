@@ -31,6 +31,13 @@
           >
             <div class="open-vip">
               <a href="" @click.prevent>开通VIP</a>
+              <div
+                class="triangle"
+                :class="{
+                  'triangle-top': !isOverVip,
+                  'triangle-bottom': isOverVip
+                }"
+              ></div>
             </div>
 
             <div
@@ -56,6 +63,7 @@
           >
             <div class="open-vip">
               <a href="" @click.prevent>充值</a>
+              <div class="triangle triangle-top"></div>
             </div>
 
             <div
@@ -143,9 +151,6 @@ export default {
   text-align: center;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
-
   background-color: #fff;
 }
 
@@ -197,7 +202,7 @@ nav {
       width: 37px;
       height: 14px;
       border-radius: 1px;
-      background-color: rgb(253, 200, 103);
+      background-color: rgb(223, 189, 126);
     }
     .nav-option:nth-child(3)::after {
       content: "抢特权";
@@ -207,7 +212,7 @@ nav {
       width: 37px;
       height: 14px;
       font-size: 8px;
-      color: rgb(163, 113, 21);
+      color: rgb(138, 103, 38);
       -webkit-transform: scale(0.72);
     }
     .isSelected {
@@ -251,6 +256,21 @@ nav {
       a {
         color: #fff;
       }
+      .triangle {
+        position: absolute;
+        right: 10px;
+        width: 0;
+        height: 0;
+        border: 4px solid transparent;
+      }
+      .triangle-top {
+        top: calc(50% - 2px);
+        border-top: 5px solid #fff;
+      }
+      .triangle-bottom {
+        top: 35%;
+        border-bottom: 5px solid #fff;
+      }
     }
     .other-pay {
       top: 35px;
@@ -278,14 +298,6 @@ nav {
       border-radius: 0 0 4px 4px;
     }
   }
-  .open-vip::after {
-    content: "";
-    position: absolute;
-    top: calc(50% - 2px);
-    right: 10px;
-    border: 4px solid transparent;
-    border-top: 5px solid #fff;
-  }
 
   .pay-money {
     cursor: pointer;
@@ -299,9 +311,24 @@ nav {
       a {
         color: #000;
       }
+
+      .triangle-top {
+        border-top: 5px solid #000;
+      }
+      // .triangle-bottom{
+      //   border-bottom:5px solid #fff;
+      // }
     }
-    .open-vip::after {
-      border-top: 5px solid #000;
+    .open-vip:hover {
+      background-color: $main-color;
+      a {
+        color: #fff;
+      }
+      .triangle-top {
+        top: 35%;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid #fff;
+      }
     }
   }
 }
@@ -309,6 +336,7 @@ nav {
 .sub-nav {
   margin: 0 auto;
   padding-left: 230px;
+  padding-right: 20px;
   max-width: $max-width;
   min-width: $min-width;
   height: 52px;
@@ -325,17 +353,4 @@ nav {
   }
 }
 
-// #nav {
-//   padding: 30px;
-//   height: 80px;
-//   flex: auto 0 0;
-//   a {
-//     font-weight: bold;
-//     color: #2c3e50;
-
-//     &.router-link-exact-active {
-//       color: #42b983;
-//     }
-//   }
-// }
 </style>

@@ -3,20 +3,6 @@
  * 凡是多个页面会同时使用到的样式全部放入该文件中 
  */
 
-* {
-    box-sizing: border-box;
-}
-
-@media screen and (max-width: 1920px) {}
-
-[data-dpr="2"] p {
-    font-size: 16px;
-}
-
-[data-dpr="3"] p {
-    font-size: 24px;
-}
-
 // //最长宽度
 $max-width:1200px;
 //最窄宽度
@@ -24,27 +10,50 @@ $min-width:1000px;
 //测试用边框
 $border:2px solid orange;
 $r-border:2px solid red;
-//主要色彩
-$bg-dark:#eeeeee; //更深
-$bg-light:#ffffff; //
 //按钮，tab等颜色
 $main-color:#31c27c; //#B033FF app主题色
-//字体
-$font-light:#ffffff; //浅灰
-$font-dark:#000000;
-$link-color:#019fde; //饿了么蓝
+* {
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none
+}
+
+img {
+    border: 0 none;
+    -ms-interpolation-mode: bicubic;
+    image-rendering: optimizeQuality
+}
+
+input[type=button],
+input[type=submit] {
+    cursor: pointer
+}
+
+button {
+    cursor: pointer
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
 a {
-    text-decoration: none;
     color: #000000;
+    text-decoration: none;
     cursor: pointer;
 }
 
 a:hover {
-    color: $main-color;
+    color: #31c27c;
 }
 
-ul {
-    list-style-type: none;
+a:focus,
+button:focus,
+input:focus {
+    outline: 0
 }
 
 
